@@ -111,6 +111,7 @@ public class Number {
     public String getAdjacent() {
         return "X" + this.adjacentX + "_Y" + this.adjacentY;
     }
+
     public boolean isAdjacent(Schematic schematic, char[] specialCharacters) {
         AtomicBoolean isAdjacent = new AtomicBoolean(false);
         ArrayList<Integer> fieldsToCheckOnSameRow = this.validationFields(true);

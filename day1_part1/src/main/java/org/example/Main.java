@@ -13,7 +13,6 @@ public class Main {
         URL url = getClass().getClassLoader().getResource("input.txt");
         return Paths.get(url.toURI());
     }
-
     public static void main(String[] args) throws URISyntaxException, IOException {
         long start = System.currentTimeMillis();
         Path filePath = new Main().getFileFromResource();
