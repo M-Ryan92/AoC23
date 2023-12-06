@@ -1,20 +1,17 @@
 package org.example;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.MatchResult;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class Bag {
-    private static Pattern processor = Pattern.compile("(?<blue>(\\d+) blue)|(?<red>(\\d+) red)|(?<green>(\\d+) green)");
+    private final static Pattern processor = Pattern.compile("(?<blue>(\\d+) blue)|(?<red>(\\d+) red)|(?<green>(\\d+) green)");
 
     public Bag() {}
 
     public int processResults(String line) {
-        HashMap<String, Integer> highestValues = new HashMap<String, Integer>(){{
+        HashMap<String, Integer> highestValues = new HashMap<>(){{
             put("blue", 0);
             put("red", 0);
             put("green", 0);
@@ -35,7 +32,6 @@ public class Bag {
             });
         });
 
-        int res = highestValues.get("blue") * highestValues.get("red") * highestValues.get("green");
-        return res;
+        return highestValues.get("blue") * highestValues.get("red") * highestValues.get("green");
     }
 }

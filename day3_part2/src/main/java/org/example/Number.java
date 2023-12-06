@@ -118,7 +118,7 @@ public class Number {
         String currentRowChars = schematic.getRow(this.row);
 
         fieldsToCheckOnSameRow.forEach(column -> {
-            Character value = currentRowChars.charAt(column);
+            char value = currentRowChars.charAt(column);
             if (!isAdjacent.get()) {
                 boolean adjacent = validateAdjacentValue(value, specialCharacters);
                 if (adjacent) {

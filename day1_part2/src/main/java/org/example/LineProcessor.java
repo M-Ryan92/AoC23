@@ -1,6 +1,5 @@
 package org.example;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -9,9 +8,9 @@ public class LineProcessor {
 
     private final Integer size;
     private Integer pointerLeft = -1;
-    private LinkedList<Character> stackLeft = new LinkedList();
+    private final LinkedList<Character> stackLeft = new LinkedList<>();
     private Integer pointerRight = -1;
-    private LinkedList<Character> stackRight = new LinkedList();
+    private final LinkedList<Character> stackRight = new LinkedList<>();
 
     private static final Map<String, Integer> threeLetterNumbers = Map.of("one", 1, "two", 2, "six", 6);
     private static final Map<String, Integer> fourLetterNumbers = Map.of("four", 4, "five", 5, "nine", 9);
@@ -32,22 +31,21 @@ public class LineProcessor {
     }
 
 
-    private String stacktoString(LinkedList<Character> stack, int number) {
-        return stacktoString(stack, number, false);
+    private String stackToString(LinkedList<Character> stack, int number) {
+        return stackToString(stack, number, false);
     }
 
-    private String stacktoString(LinkedList<Character> stack, int number, boolean stripAtFront){
+    private String stackToString(LinkedList<Character> stack, int number, boolean stripAtFront){
         StringBuilder stringBuilder = new StringBuilder();
-        Iterator<Character> itr = stack.iterator();
         int size = stack.size();
         int start = 0;
         int end = size;
 
-        if (stripAtFront == false && size > number) {
+        if (!stripAtFront && size > number) {
             end = size - (size - number);
         }
 
-        if (stripAtFront == true && size > number) {
+        if (stripAtFront && size > number) {
             start = size - number;
         }
 
@@ -56,10 +54,7 @@ public class LineProcessor {
                 stringBuilder.append(stack.get(i));
             }
         }
-        if (number == 3) {
-//            System.out.println("aa-- " + stringBuilder.toString());
-        }
-        return stringBuilder.toString();
+         return stringBuilder.toString();
     }
 
     private void getLeft(int iterator) {
@@ -75,18 +70,18 @@ public class LineProcessor {
                 this.stackLeft.remove(0);
             }
 
-            String fiveLetterKey = this.stacktoString(this.stackLeft, 5, true);
-            String fourLetterKey = this.stacktoString(this.stackLeft, 4, true);
-            String threeLetterKey = this.stacktoString(this.stackLeft, 3, true);
+            String fiveLetterKey = this.stackToString(this.stackLeft, 5, true);
+            String fourLetterKey = this.stackToString(this.stackLeft, 4, true);
+            String threeLetterKey = this.stackToString(this.stackLeft, 3, true);
 
-            if (this.fiveLetterNumbers.containsKey(fiveLetterKey)){
-                int value = this.fiveLetterNumbers.get(fiveLetterKey);
+            if (fiveLetterNumbers.containsKey(fiveLetterKey)){
+                int value = fiveLetterNumbers.get(fiveLetterKey);
                 this.pointerLeft = value * 10;
-            } else if (this.fourLetterNumbers.containsKey(fourLetterKey)) {
-                int value = this.fourLetterNumbers.get(fourLetterKey);
+            } else if (fourLetterNumbers.containsKey(fourLetterKey)) {
+                int value = fourLetterNumbers.get(fourLetterKey);
                 this.pointerLeft = value * 10;
-            } else if (this.threeLetterNumbers.containsKey(threeLetterKey)) {
-                int value = this.threeLetterNumbers.get(threeLetterKey);
+            } else if (threeLetterNumbers.containsKey(threeLetterKey)) {
+                int value = threeLetterNumbers.get(threeLetterKey);
                 this.pointerLeft = value * 10;
             }
         }
@@ -106,19 +101,16 @@ public class LineProcessor {
                 this.stackRight.removeLast();
             }
 
-            String fiveLetterKey = this.stacktoString(this.stackRight, 5);
-            String fourLetterKey = this.stacktoString(this.stackRight, 4);
-            String threeLetterKey = this.stacktoString(this.stackRight, 3);
+            String fiveLetterKey = this.stackToString(this.stackRight, 5);
+            String fourLetterKey = this.stackToString(this.stackRight, 4);
+            String threeLetterKey = this.stackToString(this.stackRight, 3);
 
-            if (this.fiveLetterNumbers.containsKey(fiveLetterKey)){
-                int value = this.fiveLetterNumbers.get(fiveLetterKey);
-                this.pointerRight = value;
-            } else if (this.fourLetterNumbers.containsKey(fourLetterKey)) {
-                int value = this.fourLetterNumbers.get(fourLetterKey);
-                this.pointerRight = value;
-            } else if (this.threeLetterNumbers.containsKey(threeLetterKey)) {
-                int value = this.threeLetterNumbers.get(threeLetterKey);
-                this.pointerRight = value;
+            if (fiveLetterNumbers.containsKey(fiveLetterKey)){
+                this.pointerRight = fiveLetterNumbers.get(fiveLetterKey);
+            } else if (fourLetterNumbers.containsKey(fourLetterKey)) {
+                this.pointerRight = fourLetterNumbers.get(fourLetterKey);
+            } else if (threeLetterNumbers.containsKey(threeLetterKey)) {
+                this.pointerRight = threeLetterNumbers.get(threeLetterKey);
             }
         }
 

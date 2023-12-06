@@ -1,8 +1,6 @@
 package org.example;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Number {
@@ -12,17 +10,15 @@ public class Number {
     private boolean isOnBottom = false;
     private boolean isOnTop = false;
 
-    private int row = -1;
+    private final int row;
     private int start = -1;
     private int end = -1;
-    private ArrayList<Character> characters;
-    private int maxColumnSize;
-    private int maxRowSize;
+    private final ArrayList<Character> characters;
+    private final int maxColumnSize;
 
     public Number(int maxColumnSize, int maxRowSize, int currentRow) {
         this.maxColumnSize = maxColumnSize;
-        this.maxRowSize = maxRowSize;
-        this.characters = new ArrayList<Character>();
+        this.characters = new ArrayList<>();
         this.row = currentRow;
 
         if (currentRow == 0) {
@@ -35,14 +31,14 @@ public class Number {
 
     public int toNumber() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < this.characters.size(); i++) {
-            stringBuilder.append(this.characters.get(i));
+        for (Character character : this.characters) {
+            stringBuilder.append(character);
         }
         return Integer.parseInt(stringBuilder.toString());
     }
 
     public void pushChar(char c, int pos) {
-        if (characters.isEmpty() == true) {
+        if (characters.isEmpty()) {
             this.start = pos;
         }
         this.end = pos;
@@ -62,35 +58,35 @@ public class Number {
     }
 
 
-    public void log() {
-        System.out.println("first: " + this.isFirst);
-        System.out.println("last: " + this.isLast);
-        System.out.println("onTop: " + this.isOnTop);
-        System.out.println("onBottom: " + this.isOnBottom);
-        System.out.println("start: " + this.start);
-        System.out.println("end: " + this.end);
-        System.out.println("row: " + this.row);
-        System.out.println("maxRowSize: " + this.maxRowSize);
-        System.out.println("maxColumnSize: " + this.maxColumnSize);
-        System.out.println("chars: " + toNumber());
-
-
-        System.out.println();
-    }
+//    public void log() {
+//        System.out.println("first: " + this.isFirst);
+//        System.out.println("last: " + this.isLast);
+//        System.out.println("onTop: " + this.isOnTop);
+//        System.out.println("onBottom: " + this.isOnBottom);
+//        System.out.println("start: " + this.start);
+//        System.out.println("end: " + this.end);
+//        System.out.println("row: " + this.row);
+//        System.out.println("maxRowSize: " + this.maxRowSize);
+//        System.out.println("maxColumnSize: " + this.maxColumnSize);
+//        System.out.println("chars: " + toNumber());
+//
+//
+//        System.out.println();
+//    }
 
     public ArrayList<Integer> validationFields(boolean onSameRow) {
-        ArrayList<Integer> fields = new ArrayList<Integer>();
-        if (this.isFirst == false) {
+        ArrayList<Integer> fields = new ArrayList<>();
+        if (!this.isFirst) {
             fields.add(this.start -1);
         }
 
-        if (onSameRow == false) {
+        if (!onSameRow) {
             for (int i = start; i <= end ; i++) {
                 fields.add(i);
             }
         }
 
-        if (this.isLast == false && this.end + 1 < this.maxColumnSize) {
+        if (!this.isLast && this.end + 1 < this.maxColumnSize) {
             fields.add(this.end + 1);
         }
         return fields;
@@ -103,6 +99,7 @@ public class Number {
             boolean matched = c == specialCharacter;
             if (matched) {
                 isValid = true;
+                break;
             }
         }
 
@@ -115,29 +112,29 @@ public class Number {
         String currentRowChars = schematic.getRow(this.row);
 
         fieldsToCheckOnSameRow.forEach(column -> {
-            Character value = currentRowChars.charAt(column);
-            if (isAdjacent.get() == false) {
+            char value = currentRowChars.charAt(column);
+            if (!isAdjacent.get()) {
                 boolean adjacent = validateAdjacentValue(value, specialCharacters);
                 isAdjacent.set(adjacent);
             }
         });
 
-        if (this.isOnTop == false && isAdjacent.get() == false) {
+        if (!this.isOnTop && !isAdjacent.get()) {
             String topRowChars = schematic.getRow(this.row - 1);
 
             fieldsToCheckAdjacentRow.forEach(column -> {
-                if (isAdjacent.get() == false) {
+                if (!isAdjacent.get()) {
                     boolean adjacentTop = validateAdjacentValue(topRowChars.charAt(column), specialCharacters);
                     isAdjacent.set(adjacentTop);
                 }
             });
         }
 
-        if (this.isOnBottom == false && isAdjacent.get() == false) {
+        if (!this.isOnBottom && !isAdjacent.get()) {
             String bottomRowChars = schematic.getRow(this.row + 1);
 
             fieldsToCheckAdjacentRow.forEach(column -> {
-                if (isAdjacent.get() == false) {
+                if (!isAdjacent.get()) {
                     boolean adjacentBottom = validateAdjacentValue(bottomRowChars.charAt(column), specialCharacters);
                     isAdjacent.set(adjacentBottom);
                 }

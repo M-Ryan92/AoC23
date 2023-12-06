@@ -9,15 +9,14 @@ import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
-    private Path getFileFromResource(String fileName) throws URISyntaxException {
-        URL url = getClass().getClassLoader().getResource(fileName);
-        System.out.println(url);
+    private Path getFileFromResource() throws URISyntaxException {
+        URL url = getClass().getClassLoader().getResource("input.txt");
         return Paths.get(url.toURI());
     }
 
     public static void main(String[] args) throws URISyntaxException, IOException {
         long start = System.currentTimeMillis();
-        Path filePath = new Main().getFileFromResource("input.txt");
+        Path filePath = new Main().getFileFromResource();
         AtomicInteger result = new AtomicInteger();
         Files.readAllLines(filePath)
                 .parallelStream()

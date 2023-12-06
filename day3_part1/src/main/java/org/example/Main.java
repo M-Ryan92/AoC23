@@ -8,21 +8,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Main {
-    private Path getFileFromResource(String fileName) throws URISyntaxException {
-        URL url = getClass().getClassLoader().getResource(fileName);
+    private Path getFileFromResource() throws URISyntaxException {
+        URL url = getClass().getClassLoader().getResource("input.txt");
         return Paths.get(url.toURI());
     }
 
     public static void main(String[] args) throws URISyntaxException, IOException {
         long start = System.currentTimeMillis();
-        Path filePath = new Main().getFileFromResource("input.txt");
+        Path filePath = new Main().getFileFromResource();
 
         Schematic schematic = new Schematic();
 
         Files.readAllLines(filePath)
-                .forEach(line -> {
-                    schematic.addRow(line);
-                });
+                .forEach(schematic::addRow);
 
         schematic.printSchema();
         char[] specials = "@=#/%+-$&*".toCharArray();

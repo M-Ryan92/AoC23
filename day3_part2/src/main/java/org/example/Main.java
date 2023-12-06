@@ -10,11 +10,7 @@ import java.nio.file.Paths;
 public class Main {
     private Path getFileFromResource() throws URISyntaxException {
         URL url = getClass().getClassLoader().getResource("input.txt");
-        if (url.toURI() != null) {
-            return Paths.get(url.toURI());
-        }
-
-        return null;
+        return Paths.get(url.toURI());
     }
 
     public static void main(String[] args) throws URISyntaxException, IOException {

@@ -1,7 +1,5 @@
 package org.example;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.*;
 
 public class LineProcessor {
@@ -56,7 +54,6 @@ public class LineProcessor {
             i++;
         }
 
-        int res = this.pointerLeft + this.pointerRight;
-        return res;
+        return this.pointerLeft + this.pointerRight;
     }
 }

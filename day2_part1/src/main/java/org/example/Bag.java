@@ -1,7 +1,6 @@
 package org.example;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
@@ -9,16 +8,14 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class Bag {
-    private HashMap<String, Integer> mapValue;
-    private static Pattern processor = Pattern.compile("(?<blue>(\\d+) blue)|(?<red>(\\d+) red)|(?<green>(\\d+) green)");
-    private static Pattern gameNumberProcessor = Pattern.compile("Game (?<id>(\\d+))");
+    private final HashMap<String, Integer> mapValue = new HashMap<>();
+    private final static Pattern processor = Pattern.compile("(?<blue>(\\d+) blue)|(?<red>(\\d+) red)|(?<green>(\\d+) green)");
+    private final static Pattern gameNumberProcessor = Pattern.compile("Game (?<id>(\\d+))");
 
     public Bag(int red, int green, int blue) {
-        this.mapValue = new HashMap<>() {{
-            put("blue", blue);
-            put("green", green);
-            put("red", red);
-        }};
+        this.mapValue.put("blue", blue);
+        this.mapValue.put("green", green);
+        this.mapValue.put("red", red);
     }
 
     private int getGameNumber (String line) {
@@ -31,10 +28,8 @@ public class Bag {
     }
 
     public int processResults(String line) {
-        HashMap<String, Integer> lowestValues = new HashMap<String, Integer>(this.mapValue);
-
         AtomicBoolean valid = new AtomicBoolean(true);
-        Integer gameNumber = getGameNumber(line);
+        int gameNumber = getGameNumber(line);
 
         Stream<MatchResult> matches = processor.matcher(line).results();
         matches.forEach(match -> {
@@ -47,7 +42,7 @@ public class Bag {
             }
         });
 
-        if (valid.get() == true) {
+        if (valid.get()) {
             return gameNumber;
         } else {
             return 0;

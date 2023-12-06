@@ -7,7 +7,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class Schematic {
-
     private final ArrayList<String> rows;
     private final ArrayList<Number> numbers;
 
@@ -52,27 +51,15 @@ public class Schematic {
                 this.numbers.add(n);
             }
         });
-        Integer dayOneResult = this.numbers.stream().filter(number -> number != null && number.isAdjacent(this, specialChars)).collect(Collectors.summingInt(Number::toNumber));
-
-
 
         Map<String, List<Number>> groupedNumbers = this.numbers.stream()
                 .filter(number -> number != null && number.isAdjacent(this, specialChars))
-                .collect(Collectors.groupingBy(number -> number.getAdjacent()));
+                .collect(Collectors.groupingBy(Number::getAdjacent));
 
-        Integer dayTwoResult = groupedNumbers.values().stream().filter(group -> group.size() > 1)
-                .map(group -> {
-                    Integer number = group.stream().map(Number::toNumber).reduce((prev, next) -> {
-                        return prev * next;
-                    }).get();
-                    return number;
-                }).collect(Collectors.summingInt(Integer::intValue));
-
-        return dayTwoResult;
+        return groupedNumbers.values().stream().filter(group -> group.size() > 1)
+                .map(group -> group.stream().map(Number::toNumber).reduce((prev, next) -> prev * next).get()).mapToInt(Integer::intValue).sum();
     }
     public void printSchema() {
-        this.rows.forEach(row -> {
-            System.out.println(String.valueOf(row));
-        });
+        this.rows.forEach(System.out::println);
     }
 }

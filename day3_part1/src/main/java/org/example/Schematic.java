@@ -2,7 +2,6 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 public class Schematic {
 
@@ -14,9 +13,9 @@ public class Schematic {
         this.numbers = new ArrayList<>();
     }
 
-    public void log() {
-        System.out.println("rows max: " + this.rows.size());
-    }
+//    public void log() {
+//        System.out.println("rows max: " + this.rows.size());
+//    }
     public String getRow(int row) {
         return this.rows.get(row);
     }
@@ -38,25 +37,22 @@ public class Schematic {
                 if (n == null && Character.isDigit(c)) {
                     n = new Number(chars.length, maxRows, rowNumber);
                     n.pushChar(c, columnPosition);
-                } else if (n instanceof Number && Character.isDigit(c)) {
+                } else if (n != null && Character.isDigit(c)) {
                     n.pushChar(c, columnPosition);
-                } else if (n instanceof Number){
+                } else if (n != null){
                     this.numbers.add(n);
                     n = null;
                 }
                 columnPosition++;
-            };
-            if (n instanceof Number) {
+            }
+            if (n != null) {
                 this.numbers.add(n);
-                n = null;
             }
         });
         System.out.println("numbersSize: " + this.numbers.size());
-        return this.numbers.stream().filter(number -> number instanceof Number && number.isAdjacent(this, specialChars)).collect(Collectors.summingInt(Number::toNumber));
+        return this.numbers.stream().filter(number -> number != null && number.isAdjacent(this, specialChars)).mapToInt(Number::toNumber).sum();
     }
     public void printSchema() {
-        this.rows.forEach(row -> {
-            System.out.println(String.valueOf(row));
-        });
+        this.rows.forEach(System.out::println);
     }
 }
