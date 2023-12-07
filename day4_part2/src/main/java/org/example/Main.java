@@ -47,5 +47,3 @@ public class Main {
         System.out.println("time: "+ timeElapsed);
     }
 }
-
-//30856671
