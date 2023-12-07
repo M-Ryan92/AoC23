@@ -26,15 +26,11 @@ public class Main {
             int id = card.getId();
             int copies = card.getCopies();
             Integer hitSize = card.getHitSize();
-            System.out.println("h: " + hitSize + " id: " + id + " copies: " + copies);
-
-            int begin = id + 1;
-            int end = begin + hitSize;
-
-            for (int i = begin; i < Math.min(end, cardMap.size()) ; i++) {
-                    Card reward = cardMap.get(i);
-                    reward.addCopies(copies);
-                    cardMap.replace(set.getKey(), reward);
+            for (int i = 1; i <= hitSize; i++) {
+                    if (cardMap.containsKey(i + id)) {
+                        Card reward = cardMap.get(i + id);
+                        reward.addCopies(copies);
+                    }
             }
         });
 
